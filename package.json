@@ -1,5 +1,5 @@
 {
-  "name": "tom-live-data",
+  "name": "@tommy-234/live-data",
   "version": "1.0.0",
   "description": "Live market data analysis",
   "main": "dist/index.js",
@@ -24,5 +24,13 @@
     "react-scripts": "^4.0.3",
     "util": "^0.12.3",
     "ws": "^7.4.4"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tommy-234/live-data.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Tommy-234/live-data/issues"
+  },
+  "homepage": "https://github.com/Tommy-234/live-data#readme"
 }
