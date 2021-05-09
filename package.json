@@ -1,5 +1,5 @@
 {
-  "name": "api-ts",
+  "name": "tom-live-data",
   "version": "1.0.0",
   "description": "Live market data analysis",
   "main": "dist/index.js",
