@@ -1,5 +1,5 @@
 {
-  "name": "@tommy-234/live-data",
+  "name": "@tommy_234/live-data",
   "version": "1.0.0",
   "description": "Live market data analysis",
   "main": "dist/index.js",
