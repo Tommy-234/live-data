@@ -1,24 +1,45 @@
-import WebSocket from 'ws';
+import WS from 'ws';
 import { toNumber } from 'lodash';
 import { StreamPayload, GenericStream } from '../../types';
 
-export class BinanceStream extends GenericStream {
+const isServer = (): boolean => {
+  return ! (typeof window != 'undefined' && window.document);
+}
 
+export class BinanceStream extends GenericStream {
+  
   reset( streams: string ) {
-    const ws = new WebSocket(
-      `${this.endpoint}?streams=${streams}`
-    );
-    ws.on('open', () => {
-      console.log('connected to Binance data stream - ' + streams);
-      if (this.socket) {
-        this.socket.close();
+    if (isServer()) {
+      const ws = new WS(
+        `${this.endpoint}?streams=${streams}`
+      );
+
+      ws.on('open', () => {
+        console.log('connected to Binance data stream - ' + streams);
+        if (this.socket) {
+          this.socket.close();
+        }
+        this.socket = ws;
+      });
+
+      ws.on('message', (payload: string) => 
+        this.callback(this.mapStreamData(JSON.parse(payload) as BinanceStreamPayload))
+      );
+    } else {
+      const ws = new WebSocket(
+        `${this.endpoint}?streams=${streams}`
+      );
+
+      ws.onopen = () => {
+        if (this.socket) {
+          this.socket.close();
+        }
+        this.socket = ws;
       }
-      this.socket = ws;
-    });
-    
-    ws.on('message', (payload: string) => 
-      this.callback(this.mapStreamData(JSON.parse(payload) as BinanceStreamPayload))
-    );
+
+      ws.onmessage = (event) => 
+        this.callback(this.mapStreamData(JSON.parse(event.data) as BinanceStreamPayload))
+    }
   }
 
   private mapStreamData(payload: BinanceStreamPayload): StreamPayload {

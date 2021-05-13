@@ -1,8 +1,8 @@
-import WebSocket from 'ws';
+import WS from 'ws';
 import { StreamPayload } from './trading';
 
 export class GenericStream {
-  socket: WebSocket;
+  socket: WebSocket | WS;
   endpoint: string;
   callback: (payload: StreamPayload) => void;
 
