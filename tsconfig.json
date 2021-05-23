@@ -2,21 +2,18 @@
   "compilerOptions": {
     "module": "commonjs",
     "esModuleInterop": true,
+    "allowJs": true,
     "target": "es6",
     "moduleResolution": "node",
     "jsx": "react",
     "sourceMap": true,
     "declaration": true,
     "outDir": "dist",
-    "baseUrl": ".",
-    "paths": {
-      "@market-analysis": [ "src/*" ] 
-    }
+    "baseUrl": "."
   },
   "exclude": [
-    "node_modules/*",
-    "apps/socket-client.js",
-    "apps/fe-server.js"
+    "node_modules",
+    "dist"
   ],
   "lib": ["es2015"]
 }

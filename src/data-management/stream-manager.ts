@@ -9,6 +9,14 @@ import {
 import { Stream } from './stream';
 import { forEach, find } from 'lodash';
 
+export type NewNotificationInput = {
+  streamName: string;
+  dataPath: string;
+  operator: Operator;
+  value: number;
+  callback: () => void;
+}
+
 export class StreamManager {
   dataStreamIn: GenericStream;
   streams: Stream[] = [];
@@ -43,13 +51,8 @@ export class StreamManager {
     this.indicatorList.push({ type, count });
   }
 
-  newNotification(
-    streamName: string,
-    dataPath: string,
-    operator: Operator,
-    value: number,
-    callback: () => void
-  ): void {
+  newNotification(input: NewNotificationInput): void {
+    const { dataPath, operator, value, streamName, callback } = input
     const stream = this.findStream(streamName);
     stream.notifications.push({
       conditions: [
