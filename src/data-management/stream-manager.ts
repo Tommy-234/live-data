@@ -20,7 +20,7 @@ export type NewNotificationInput = {
 export class StreamManager {
   dataStreamIn: GenericStream;
   streams: Stream[] = [];
-  indicatorList: GlobalIndicator[] = [];
+  globalIndicators: GlobalIndicator[] = [];
   onUpdate: (data: any) => void;
 
   constructor(
@@ -35,12 +35,14 @@ export class StreamManager {
     );
   }
 
-  newStream = (name: string, history: Candle[]) => {
-    this.streams.push(new Stream(name, history, this.indicatorList));
+  newStream = (name: string, history: Candle[]): Stream => {
+    const newStream = new Stream(name, history, this.globalIndicators);
+    this.streams.push(newStream);
+    return newStream;
   }
 
-  newIndicator = (type: IndicatorType, count: number): void => {
-    if ( find( this.indicatorList, ( indicator: GlobalIndicator ) =>
+  newGlobalIndicator = (type: IndicatorType, count: number): void => {
+    if ( find( this.globalIndicators, ( indicator: GlobalIndicator ) =>
       indicator.count === count && indicator.type === type
     )) {return;}
 
@@ -48,11 +50,11 @@ export class StreamManager {
       stream.historyManager.addIndicator(type, count);
     });
 
-    this.indicatorList.push({ type, count });
+    this.globalIndicators.push({ type, count });
   }
 
   newNotification(input: NewNotificationInput): void {
-    const { dataPath, operator, value, streamName, callback } = input
+    const { dataPath, operator, value, streamName, callback } = input;
     const stream = this.findStream(streamName);
     stream.notifications.push({
       conditions: [
