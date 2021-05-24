@@ -1,5 +1,5 @@
 import { IntervalType, StreamType } from '../types';
-import { StreamManager } from '../data-management'
+import { StreamManager, Stream } from '../data-management'
 import { BinanceStream, BinanceApiClient, BinanceApiConfig } from './api-client';
 import { toLower } from 'lodash';
 
@@ -33,7 +33,7 @@ export class BinanceAnalysis {
     symbol: string,
     type: StreamType,
     interval: IntervalType
-  ): Promise<void> => {
+  ): Promise<Stream> => {
     const name = `${toLower(symbol)}@${type}_${interval}`;
     if ( this.streamManager.findStream(name) ) {return;}
     
@@ -42,7 +42,7 @@ export class BinanceAnalysis {
       interval,
       limit: HISTORY_LIMIT
     });
-    this.streamManager.newStream(name, historyData)
+    return this.streamManager.newStream(name, historyData);
   }
 
   resetStream = (): void => {
