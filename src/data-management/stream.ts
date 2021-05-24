@@ -1,6 +1,7 @@
 import {
   MarketNotification,
   MarketCondition,
+  IndicatorType,
   Operator,
   GlobalIndicator,
   Candle
@@ -19,11 +20,15 @@ export class Stream {
     indicatorList: GlobalIndicator[]
   ) {
     this.name = name;
-    const HM = new HistoryManager(historyData);
+    this.historyManager = new HistoryManager(historyData);
+    
     forEach(indicatorList, (indicator: GlobalIndicator) => {
-      HM.addIndicator(indicator.type, indicator.count);
+      this.newIndicator(indicator.type, indicator.count);
     });
-    this.historyManager = HM;
+  }
+
+  newIndicator = (type: IndicatorType, count: number) => {
+    this.historyManager.addIndicator(type, count);
   }
 
   checkMarketConditions(): void {

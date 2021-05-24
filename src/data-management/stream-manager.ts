@@ -47,7 +47,7 @@ export class StreamManager {
     )) {return;}
 
     forEach(this.streams, (stream: Stream) => {
-      stream.historyManager.addIndicator(type, count);
+      stream.newIndicator(type, count);
     });
 
     this.globalIndicators.push({ type, count });
