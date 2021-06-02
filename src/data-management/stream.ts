@@ -7,6 +7,7 @@ import {
   Candle
 } from '../types';
 import { HistoryManager } from './history-manager';
+import { Indicator } from '../indicators'
 import { forEach, filter } from 'lodash';
 
 export class Stream {
@@ -21,14 +22,18 @@ export class Stream {
   ) {
     this.name = name;
     this.historyManager = new HistoryManager(historyData);
-    
+
     forEach(indicatorList, (indicator: GlobalIndicator) => {
       this.newIndicator(indicator.type, indicator.count);
     });
   }
 
-  newIndicator = (type: IndicatorType, count: number) => {
-    this.historyManager.addIndicator(type, count);
+  newIndicator = (type: IndicatorType, count: number): Indicator => {
+    return this.historyManager.addIndicator(type, count);
+  }
+
+  findIndicator = (type: IndicatorType, count: number): Indicator => {
+    return this.historyManager.findIndicator(type, count);
   }
 
   checkMarketConditions(): void {

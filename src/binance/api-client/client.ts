@@ -25,7 +25,7 @@ export class BinanceApiClient {
         return res.data;
       })
       .catch( (error) => {
-        console.log('getDataTest error...');
+        console.log('binanceRequest error...');
         console.log(error.response.data);
         return {};
       })

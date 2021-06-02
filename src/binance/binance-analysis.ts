@@ -1,7 +1,7 @@
 import { IntervalType, StreamType } from '../types';
 import { StreamManager, Stream } from '../data-management'
 import { BinanceStream, BinanceApiClient, BinanceApiConfig } from './api-client';
-import { toLower } from 'lodash';
+import { toLower, toUpper } from 'lodash';
 
 const HISTORY_LIMIT = 200;
 const BINANCE_STREAM_SEPARATOR = '/';
@@ -38,7 +38,7 @@ export class BinanceAnalysis {
     if ( this.streamManager.findStream(name) ) {return;}
     
     const historyData = await this.apiClient.historicData({
-      symbol,
+      symbol: toUpper(symbol),
       interval,
       limit: HISTORY_LIMIT
     });

@@ -1,6 +1,6 @@
 import { IndicatorClassMap, IndicatorType, Candle } from '../types';
 import { Indicator } from '../indicators';
-import { concat, forEach } from 'lodash';
+import { concat, forEach, find } from 'lodash';
 
 export class HistoryManager {
   History: Candle[];
@@ -39,10 +39,16 @@ export class HistoryManager {
     });
   }
 
-  addIndicator(type: IndicatorType, count: number): void {
+  addIndicator(type: IndicatorType, count: number): Indicator {
     const indicatorClass = IndicatorClassMap[type];
-    this.Indicators.push(
-      new indicatorClass({ history: this.History, type, count })
+    const newIndicator = new indicatorClass({ history: this.History, type, count });
+    this.Indicators.push(newIndicator);
+    return newIndicator;
+  }
+
+  findIndicator = (type: IndicatorType, count: number): Indicator => {
+    return find( this.Indicators, ( indicator: Indicator ) =>
+      indicator.Count === count && indicator.Type === type
     );
   }
 
