@@ -7,7 +7,7 @@ import {
   Candle
 } from '../types';
 import { Stream } from './stream';
-import { forEach, find } from 'lodash';
+import { forEach, find, remove } from 'lodash';
 
 export type NewNotificationInput = {
   streamName: string;
@@ -68,6 +68,10 @@ export class StreamManager {
     return find( this.streams, ( stream: Stream ) =>
       stream.name === streamName
     )
+  }
+
+  deleteStream = (streamName: string): void => {
+    this.streams = remove(this.streams, stream => stream.name === streamName);
   }
 
   resetStreams = (separator: string): void => {
