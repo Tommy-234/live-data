@@ -1,6 +1,6 @@
 {
   "name": "@tommy_234/live-data",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "description": "Live market data analysis",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

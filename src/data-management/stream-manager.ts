@@ -71,7 +71,7 @@ export class StreamManager {
   }
 
   deleteStream = (streamName: string): void => {
-    this.streams = remove(this.streams, stream => stream.name === streamName);
+    remove(this.streams, stream => stream.name === streamName);
   }
 
   resetStreams = (separator: string): void => {
