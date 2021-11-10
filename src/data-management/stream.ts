@@ -38,6 +38,7 @@ export class Stream {
 
   checkMarketConditions(): void {
     const indicatorValues = this.historyManager.getIndicators();
+    const callbacks = [];
     this.notifications = filter(this.notifications, (notification: MarketNotification) => {
       let conditionsFalse = true;
       forEach(notification.conditions, (condition: MarketCondition) => {
@@ -56,9 +57,11 @@ export class Stream {
           conditionsFalse = true;
         }
       });
-      !conditionsFalse && notification.callback();
+      !conditionsFalse && callbacks.push(notification.callback);
       return conditionsFalse;
     });
+    // Trigger callback(s) after notifications have been filtered
+    callbacks.forEach( callback => callback());
   }
 
   resolveDataPath(dataPath: string, data: unknown) {
