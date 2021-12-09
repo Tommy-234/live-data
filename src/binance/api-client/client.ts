@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { CreateOrderInput } from './types';
-import { toNumber, map } from 'lodash';
-import { Candle } from '../../types';
+import { toNumber, map, filter, get, includes } from 'lodash';
+import { Candle, Info24Hour } from '../../types';
 import { createHmac } from 'crypto';
 import { encode } from 'querystring';
 
@@ -71,5 +71,42 @@ export class BinanceApiClient {
       quoteAssetBuyVolume: toNumber(candle[10]),
       isClosed: false
     }));
+  }
+
+  bitcoinPairings = async (): Promise<Info24Hour[]> => {
+    const uri = '/v3/ticker/24hr';
+    const allPairs = await this.binanceRequest(uri);
+
+    return map(
+      filter(
+        allPairs,
+        pair => 
+          includes(get(pair, 'symbol'), 'BTC') &&
+          toNumber(get(pair, 'lastPrice')) !== 0
+      ),
+      pair => ({
+        symbol: pair.symbol,
+        priceChange: toNumber(pair.priceChange),
+        priceChangePercent: toNumber(pair.priceChange),
+        weightedAvgPrice: toNumber(pair.priceChange),
+        prevClosePrice: toNumber(pair.priceChange),
+        lastPrice: toNumber(pair.priceChange),
+        lastQty: toNumber(pair.priceChange),
+        bidPrice: toNumber(pair.priceChange),
+        bidQty: toNumber(pair.priceChange),
+        askPrice: toNumber(pair.priceChange),
+        askQty: toNumber(pair.priceChange),
+        openPrice: toNumber(pair.priceChange),
+        highPrice: toNumber(pair.priceChange),
+        lowPrice: toNumber(pair.priceChange),
+        volume: toNumber(pair.volume),
+        quoteVolume: toNumber(pair.quoteVolume),
+        openTime: pair.openTime,
+        closeTime: pair.closeTime,
+        firstId: pair.firstId,
+        lastId: pair.lastId,
+        count: pair.count
+      })
+    );
   }
 }
