@@ -6,10 +6,7 @@ export class HistoryManager {
   History: Candle[];
   MostRecentCandle: Candle;
   IsNewCandle: boolean = false;
-
-  // TODO - (scaling) - maybe move these out - move data to client?
   Indicators: Array<Indicator> = [];
-  // Notifications: MarketNotification[] = [];
 
   constructor(history: Candle[]) {
     this.History = history.slice(0, -1);

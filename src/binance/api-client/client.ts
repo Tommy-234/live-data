@@ -7,8 +7,8 @@ import { encode } from 'querystring';
 
 export type BinanceApiConfig = {
   endpoint: string;
-  apiKey: string;
-  secretKey: string;
+  apiKey?: string;
+  secretKey?: string;
 }
 
 export class BinanceApiClient {
@@ -20,7 +20,13 @@ export class BinanceApiClient {
 
   binanceRequest = async (uri: string): Promise<any> => {
     const url = this.config.endpoint + uri;
-    return axios.get(url, { headers: { 'X-MBX-APIKEY': this.config.apiKey }})
+    return axios.get(
+      url,
+      {
+        // TODO: Only provide apiKey for secure requests
+        // headers: { 'X-MBX-APIKEY': this.config.apiKey }
+      }
+    )
       .then( (res) => {
         return res.data;
       })
